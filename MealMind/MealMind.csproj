@@ -64,4 +64,33 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <MauiXaml Update="Views\Controls\NavBarView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Controls\TitleBannerView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Images\AppIcons\" />
+	  <Folder Include="Resources\Images\Navigation\" />
+	  <Folder Include="Resources\Images\MealCard\" />
+	  <Folder Include="Resources\Images\MealPlan\" />
+	  <Folder Include="Resources\Images\ShoppingList\" />
+	  <Folder Include="Resources\Images\Pantry\" />
+	  <Folder Include="Resources\Images\Search\" />
+	  <Folder Include="Views\Pages\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\Controls\NavBarView.xaml.cs">
+	    <DependentUpon>NavBarView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Controls\TitleBannerView.xaml.cs">
+	    <DependentUpon>TitleBannerView.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

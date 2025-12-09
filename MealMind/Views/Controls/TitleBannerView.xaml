@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MealMind.Views.Controls.TitleBannerView"
+             HeightRequest="60"
+             BackgroundColor="#D9C6E5">
+    
+    
+    <Grid   x:Name="TitleGrid"
+            Padding="10"
+            ColumnDefinitions="Auto,*,Auto">
+
+        <!-- Left Side App Icon 
+                Grey placeholder for now-->
+        <ImageButton 
+            Grid.Column="0"
+            x:Name="TitleBannerIcon"
+            Source="appicon.png"
+            BackgroundColor="Grey"
+            Clicked="TitleBannerClicked" />
+
+        <!-- Middle holds the Title
+                Switch to Image button 
+                when I design a specific one-->
+        <Label 
+            Grid.Column="1"
+            Text="MealMind"
+            FontSize="24"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            VerticalOptions="Center">
+            <Label.GestureRecognizers>
+                <!-- adding click function to the title Label-->
+                <TapGestureRecognizer Tapped="TitleBannerClicked"/>
+            </Label.GestureRecognizers>
+        </Label>
+        
+        <!-- right side blank just to keep spacing even for the title-->
+
+    </Grid>
+
+</ContentView>
+
+    

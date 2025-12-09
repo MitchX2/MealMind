@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MealMind.Views.Controls.NavBarView"
+             HeightRequest="60"
+             BackgroundColor="SlateGray">
+    
+
+        <Grid Padding="10"
+              ColumnSpacing="10"
+              ColumnDefinitions="*,*,*,*,*"
+              HorizontalOptions="Center">
+
+            <!-- 5 NavButton's non-descript names allowing for customisation-->
+            <ImageButton 
+                Grid.Column="0"
+                x:Name="NavButton_A"
+                Source="appicon.png"
+                BackgroundColor="White"
+                Clicked="NavButton_A_Clicked" />
+            <!-- Grey for now to line up before images are set -->
+
+            <ImageButton 
+                Grid.Column="1"
+                x:Name="NavButton_B"
+                Source="appicon.png"
+                BackgroundColor="Teal"
+                Clicked="NavButton_B_Clicked" />
+            <ImageButton 
+                Grid.Column="2"
+                x:Name="NavButton_C"
+                Source="appicon.png"
+                BackgroundColor="Purple"
+                Clicked="NavButton_C_Clicked" />
+            <ImageButton 
+                Grid.Column="3"
+                x:Name="NavButton_D"
+                Source="appicon.png"
+                BackgroundColor="Yellow"
+                Clicked="NavButton_D_Clicked" />
+            <ImageButton 
+                Grid.Column="4"
+                x:Name="NavButton_E"
+                Source="appicon.png"
+                BackgroundColor="ForestGreen"
+                Clicked="NavButton_E_Clicked" />
+
+
+
+        </Grid>
+              
+        
+    
+    
+    <!-- The NavBar currently displays on MainPage and shows:
+            5 rough buttons on the bottom spaced towards the left
+            Removed HorizontalStackLayout so theyre Centered at min -->
+</ContentView>
