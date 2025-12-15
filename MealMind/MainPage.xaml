@@ -4,7 +4,9 @@
              x:Class="MealMind.MainPage"
              xmlns:controls="clr-namespace:MealMind.Views.Controls" >
 
-    <!-- Putting the page in a grid to ensure the TitleBanner and NavBer Stay where theyre suppose to be -->
+    <!-- Putting the page in a grid to ensure the TitleBanner and NavBer 
+            Stay where theyre suppose to be 
+            Auto used to esure they take up space difined in the class-->
     <Grid RowDefinitions="Auto,*,Auto">
 
         <!-- Banner at top roe 0-->
@@ -16,7 +18,10 @@
                 <!-- Test display-->
                 <Label Text="Display Label for the MainPage test"
                        FontSize="20"/>
-                <!-- Put your MealFeatureView and search content here -->
+                
+                <!-- Put MealFeatureView and search content here -->
+                
+            
             </VerticalStackLayout>
         </ScrollView>
 

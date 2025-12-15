@@ -65,6 +65,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\Controls\MealFeatureView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\NavBarView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -81,6 +84,8 @@
 	  <Folder Include="Resources\Images\ShoppingList\" />
 	  <Folder Include="Resources\Images\Pantry\" />
 	  <Folder Include="Resources\Images\Search\" />
+	  <Folder Include="Utilities\" />
+	  <Folder Include="Resources\Pages\" />
 	  <Folder Include="Views\Pages\" />
 	</ItemGroup>
 
