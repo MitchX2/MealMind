@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="MealMind.Resources.Styles.ColorsLight">
+
+    <Color x:Key="AppBackground">#F9FAF7</Color>
+    <Color x:Key="SurfaceBackground">#FFFFFF</Color>
+
+    <Color x:Key="PrimaryText">#1F2933</Color>
+    <Color x:Key="SecondaryText">#6B7280</Color>
+
+    
+
+    <!-- Text -->
+    <Color x:Key="MutedText">#9CA3AF</Color>
+
+    <!-- Accent / brand -->
+    <Color x:Key="Accent">#E07A3F</Color>
+    <!-- warm food-orange -->
+    <Color x:Key="AccentSoft">#F4E3D6</Color>
+
+    <!-- UI elements -->
+    <Color x:Key="BorderColor">#E5E7EB</Color>
+    <Color x:Key="DividerColor">#D1D5DB</Color>
+
+    <!-- Buttons -->
+    <Color x:Key="ButtonPrimaryBackground">#E07A3F</Color>
+    <Color x:Key="ButtonPrimaryText">#FFFFFF</Color>
+
+    <Color x:Key="ButtonSecondaryBackground">#FFFFFF</Color>
+    <Color x:Key="ButtonSecondaryText">#E07A3F</Color>
+
+    <!-- States -->
+    <Color x:Key="DisabledBackground">#E5E7EB</Color>
+    <Color x:Key="DisabledText">#9CA3AF</Color>
+
+</ResourceDictionary>

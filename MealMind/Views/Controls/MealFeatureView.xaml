@@ -1,13 +1,82 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MealMind.Views.Controls.MealFeatureView">
+             x:Class="MealMind.Views.Controls.MealFeatureView"
+             x:Name="Root">
+
+
+    <!-- Card -->
+    <Border
+        StrokeThickness="1"
+        Stroke="{DynamicResource BorderColor}"
+        StrokeShape="RoundRectangle 18"
+        Padding="10"
+        Margin="0,4">
+
+        <Grid RowDefinitions="Auto,Auto,Auto"
+              ColumnDefinitions="Auto,*"
+              RowSpacing="8"
+              ColumnSpacing="12">
+
+            <!-- Badge -->
+            <Label Grid.Row="0" Grid.ColumnSpan="2"
+                   Text="{Binding BadgeText, Source={x:Reference Root}}"
+                   IsVisible="{Binding ShowBadge, Source={x:Reference Root}}"
+                   FontAttributes="Bold"
+                   FontSize="13"
+                   Opacity="0.8" />
+
+            <!-- Image (left) -->
+            <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
+                  WidthRequest="110" HeightRequest="110">
+                <Image
+                    Aspect="AspectFill"
+                    Source="{Binding MealImage, Source={x:Reference Root}}"
+                    HeightRequest="110"
+                    WidthRequest="110" />
+                <!-- Overlay tap -->
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding TapCommand, Source={x:Reference Root}}"
+                        CommandParameter="{Binding TapCommandParameter, Source={x:Reference Root}}" />
+                </Grid.GestureRecognizers>
+            </Grid>
+
+            <!-- Title -->
+            <Label Grid.Row="1" Grid.Column="1"
+                   Text="{Binding Title, Source={x:Reference Root}}"
+                   FontAttributes="Bold"
+                   FontSize="20"
+                   LineBreakMode="TailTruncation" />
+
+            <!-- Ingredients preview -->
+            <Label Grid.Row="2" Grid.Column="1"
+                   Text="{Binding IngredientsPreview, Source={x:Reference Root}}"
+                   FontSize="13"
+                   Opacity="0.85"
+                   LineBreakMode="WordWrap"
+                   MaxLines="3" />
+
+            <!-- Optional nav buttons (transparent overlays) -->
+            <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
+                  IsVisible="{Binding ShowNavButtons, Source={x:Reference Root}}">
+                <Grid ColumnDefinitions="*,*">
+                    <Button Grid.Column="0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding LeftCommand, Source={x:Reference Root}}"
+                            Opacity="0.01"
+                            AutomationProperties.Name="Previous meal" />
+                    <Button Grid.Column="1"
+                            BackgroundColor="Transparent"
+                            Command="{Binding RightCommand, Source={x:Reference Root}}"
+                            Opacity="0.01"
+                            AutomationProperties.Name="Next meal" />
+                </Grid>
+            </Grid>
+
+        </Grid>
+    </Border>
+
     
-    
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+
 </ContentView>

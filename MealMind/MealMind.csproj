@@ -65,6 +65,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Resources\Styles\ColorsDark.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\ColorsDefault.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Resources\Styles\ColorsLight.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\MealFeatureView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -72,6 +81,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\TitleBannerView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Pages\RecipePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
@@ -84,9 +96,7 @@
 	  <Folder Include="Resources\Images\ShoppingList\" />
 	  <Folder Include="Resources\Images\Pantry\" />
 	  <Folder Include="Resources\Images\Search\" />
-	  <Folder Include="Utilities\" />
-	  <Folder Include="Resources\Pages\" />
-	  <Folder Include="Views\Pages\" />
+	  <Folder Include="Pages\" />
 	</ItemGroup>
 
 	<ItemGroup>

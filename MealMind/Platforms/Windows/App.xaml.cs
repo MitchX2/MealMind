@@ -17,6 +17,14 @@ namespace MealMind.WinUI
         public App()
         {
             this.InitializeComponent();
+            //this.UnhandledException += (sender, e) =>
+            //{
+            //    System.Diagnostics.Debug.WriteLine("WINUI UNHANDLED EXCEPTION: " + e.Exception);
+            //    System.Diagnostics.Debug.WriteLine("MESSAGE: " + e.Message);
+
+            //    // Optional: stop VS breaking at App.g.i.cs
+            //    // e.Handled = true;
+            //};
         }
 
         protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();

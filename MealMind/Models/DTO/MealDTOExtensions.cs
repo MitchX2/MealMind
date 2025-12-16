@@ -149,6 +149,7 @@ namespace MealMind.Models.DTO
         }
 
 
+        // If we want to clean the urls further in future
         private static string? CleanUrl(string? url)
         {
             if (string.IsNullOrWhiteSpace(url)) return null;
