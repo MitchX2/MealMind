@@ -34,4 +34,11 @@
     <Color x:Key="DisabledBackground">#E5E7EB</Color>
     <Color x:Key="DisabledText">#9CA3AF</Color>
 
+    <!-- accElement : used to colour transparent buttons in accesability theme-->
+    <Color x:Key="accElementBackground">Transparent</Color>
+
+
+    <!-- MealFeatureCard -->
+    <Color x:Key="CardBackground">#FFFFFF</Color>
+
 </ResourceDictionary>

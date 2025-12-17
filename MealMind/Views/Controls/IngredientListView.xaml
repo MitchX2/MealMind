@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MealMind.Views.Controls.IngredientListView"
+             x:Name="Root">
+
+    
+    <Border StrokeThickness="1"
+            Stroke="{DynamicResource BorderColor}"
+            BackgroundColor="{DynamicResource CardBackground}"
+            StrokeShape="RoundRectangle 18"
+            Padding="12"
+            Margin="0,4">
+
+        <Border.Shadow>
+            <Shadow Offset="0,4" Radius="8" Opacity="0.18" />
+        </Border.Shadow>
+
+        <VerticalStackLayout Spacing="10">
+
+            <!-- Optional title -->
+            <Label Text="{Binding Title}"
+                   IsVisible="{Binding ShowTitle }"
+                   TextColor="{DynamicResource TextPrimary}"
+                   FontAttributes="Bold"
+                   FontSize="16" />
+
+            <!-- Empty state -->
+            <Label Text="{Binding EmptyText }"
+                   IsVisible="{Binding IsEmpty }"
+                   TextColor="{DynamicResource TextSecondary}"
+                   FontSize="13" />
+
+            <!-- List -->
+            <CollectionView ItemsSource="{Binding Items }"
+                            IsVisible="{Binding IsNotEmpty }"
+                            SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*,Auto"
+                              RowDefinitions="Auto"
+                              ColumnSpacing="12"
+                              Padding="6,4">
+
+                            <Label Grid.Column="0"
+                                   Text="{Binding Name}"
+                                   TextColor="{DynamicResource TextPrimary}"
+                                   FontSize="14"
+                                   LineBreakMode="TailTruncation" />
+
+                            <Label Grid.Column="1"
+                                   Text="{Binding Measure}"
+                                   TextColor="{DynamicResource TextSecondary}"
+                                   FontSize="13"
+                                   HorizontalTextAlignment="End" />
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

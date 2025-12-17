@@ -11,6 +11,8 @@ public partial class MealFeatureView : ContentView
     {
         InitializeComponent();
 
+        BindingContext = this;
+
         _swipeLeft = new SwipeGestureRecognizer { Direction = SwipeDirection.Left };
         _swipeRight = new SwipeGestureRecognizer { Direction = SwipeDirection.Right };
 
@@ -20,7 +22,7 @@ public partial class MealFeatureView : ContentView
         UpdateSwipeRecognizers();
     }
 
-    // ===== Display properties =====
+    // Bindable properties for display data
 
     public static readonly BindableProperty BadgeTextProperty =
         BindableProperty.Create(nameof(BadgeText), typeof(string), typeof(MealFeatureView), "Meal of the Day");
@@ -39,6 +41,7 @@ public partial class MealFeatureView : ContentView
         get => (bool)GetValue(ShowBadgeProperty);
         set => SetValue(ShowBadgeProperty, value);
     }
+
 
     public static readonly BindableProperty TitleProperty =
         BindableProperty.Create(nameof(Title), typeof(string), typeof(MealFeatureView), "");
@@ -115,7 +118,12 @@ public partial class MealFeatureView : ContentView
     // ===== Commands =====
 
     public static readonly BindableProperty LeftCommandProperty =
-        BindableProperty.Create(nameof(LeftCommand), typeof(ICommand), typeof(MealFeatureView));
+        BindableProperty.Create(
+            nameof(LeftCommand),
+            typeof(ICommand),
+            typeof(MealFeatureView),
+            default(ICommand),
+            propertyChanged: (b, o, n) => ((MealFeatureView)b).UpdateSwipeRecognizers());
 
     public ICommand? LeftCommand
     {
@@ -124,7 +132,12 @@ public partial class MealFeatureView : ContentView
     }
 
     public static readonly BindableProperty RightCommandProperty =
-        BindableProperty.Create(nameof(RightCommand), typeof(ICommand), typeof(MealFeatureView));
+        BindableProperty.Create(
+            nameof(RightCommand),
+            typeof(ICommand),
+            typeof(MealFeatureView),
+            default(ICommand),
+            propertyChanged: (b, o, n) => ((MealFeatureView)b).UpdateSwipeRecognizers());
 
     public ICommand? RightCommand
     {
@@ -155,7 +168,10 @@ public partial class MealFeatureView : ContentView
         GestureRecognizers.Remove(_swipeLeft);
         GestureRecognizers.Remove(_swipeRight);
 
-        if (EnableSwipe)
+        var canSwipe = EnableSwipe && LeftCommand != null && RightCommand != null
+                        && (IsLeftEnabled || IsRightEnabled);
+
+        if (canSwipe)
         {
             GestureRecognizers.Add(_swipeLeft);
             GestureRecognizers.Add(_swipeRight);

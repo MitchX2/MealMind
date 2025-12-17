@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MealMind.Views.Controls.InstructionListView"
+             x:Name="Root">
+
+    <Border StrokeThickness="1"
+            Stroke="{DynamicResource BorderColor}"
+            BackgroundColor="{DynamicResource CardBackground}"
+            StrokeShape="RoundRectangle 18"
+            Padding="12"
+            Margin="0,4">
+
+        <Border.Shadow>
+            <Shadow Offset="0,4" Radius="8" Opacity="0.18" />
+        </Border.Shadow>
+
+        <VerticalStackLayout Spacing="10">
+
+            <!-- Optional title -->
+            <Label Text="{Binding Title }"
+                   IsVisible="{Binding ShowTitle }"
+                   TextColor="{DynamicResource TextPrimary}"
+                   FontAttributes="Bold"
+                   FontSize="16" />
+
+            <!-- Empty state -->
+            <Label Text="{Binding EmptyText }"
+                   IsVisible="{Binding IsEmpty }"
+                   TextColor="{DynamicResource TextSecondary}"
+                   FontSize="13" />
+
+            <!-- Steps list -->
+            <CollectionView ItemsSource="{Binding Items }"
+                            IsVisible="{Binding IsNotEmpty }"
+                            SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="Auto,Auto,*"
+                              RowDefinitions="Auto"
+                              ColumnSpacing="10"
+                              Padding="6,6">
+
+                            <!-- Checkbox (optional) -->
+                            <CheckBox Grid.Column="0"
+                                      IsVisible="{Binding ShowCheckbox }"
+                                      IsChecked="{Binding IsDone}" />
+
+                            <!-- Step number -->
+                            <Label Grid.Column="1"
+                                   Text="{Binding Number}"
+                                   TextColor="{DynamicResource TextSecondary}"
+                                   FontAttributes="Bold"
+                                   VerticalTextAlignment="Start" />
+
+                            <!-- Step text -->
+                            <Label Grid.Column="2"
+                                   Text="{Binding Text}"
+                                   TextColor="{DynamicResource TextPrimary}"
+                                   FontSize="14"
+                                   LineBreakMode="WordWrap" />
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

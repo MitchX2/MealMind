@@ -6,77 +6,76 @@
 
 
     <!-- Card -->
-    <Border
-        StrokeThickness="1"
-        Stroke="{DynamicResource BorderColor}"
-        StrokeShape="RoundRectangle 18"
-        Padding="10"
-        Margin="0,4">
+    <Border StrokeThickness="1"
+            Stroke="{DynamicResource BorderColor}"
+            BackgroundColor="{DynamicResource CardBackground}"
+            StrokeShape="RoundRectangle 18"
+            Padding="10"
+            Margin="0,4">
 
-        <Grid RowDefinitions="Auto,Auto,Auto"
+        <Border.Shadow>
+            <Shadow Offset="0,4" Radius="8" Opacity="0.18" />
+        </Border.Shadow>
+
+        <!-- Single child of Border -->
+        <Grid RowDefinitions="Auto,Auto"
               ColumnDefinitions="Auto,*"
               RowSpacing="8"
               ColumnSpacing="12">
 
-            <!-- Badge -->
-            <Label Grid.Row="0" Grid.ColumnSpan="2"
-                   Text="{Binding BadgeText, Source={x:Reference Root}}"
-                   IsVisible="{Binding ShowBadge, Source={x:Reference Root}}"
-                   FontAttributes="Bold"
-                   FontSize="13"
-                   Opacity="0.8" />
-
-            <!-- Image (left) -->
-            <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
-                  WidthRequest="110" HeightRequest="110">
-                <Image
-                    Aspect="AspectFill"
-                    Source="{Binding MealImage, Source={x:Reference Root}}"
-                    HeightRequest="110"
-                    WidthRequest="110" />
-                <!-- Overlay tap -->
-                <Grid.GestureRecognizers>
+            <!-- Rounded image with tap -->
+            <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 14"
+                    WidthRequest="110"
+                    HeightRequest="110">
+                <Image Aspect="AspectFill"
+                       Source="{Binding MealImage}"
+                       WidthRequest="110"
+                       HeightRequest="110" />
+                <Border.GestureRecognizers>
                     <TapGestureRecognizer
-                        Command="{Binding TapCommand, Source={x:Reference Root}}"
-                        CommandParameter="{Binding TapCommandParameter, Source={x:Reference Root}}" />
-                </Grid.GestureRecognizers>
-            </Grid>
+                        Command="{Binding TapCommand}"
+                        CommandParameter="{Binding TapCommandParameter}" />
+                </Border.GestureRecognizers>
+            </Border>
 
             <!-- Title -->
-            <Label Grid.Row="1" Grid.Column="1"
-                   Text="{Binding Title, Source={x:Reference Root}}"
+            <Label Grid.Row="0" Grid.Column="1"
+                   Text="{Binding Title}"
+                   TextColor="{DynamicResource TextPrimary}"
                    FontAttributes="Bold"
                    FontSize="20"
                    LineBreakMode="TailTruncation" />
 
             <!-- Ingredients preview -->
-            <Label Grid.Row="2" Grid.Column="1"
-                   Text="{Binding IngredientsPreview, Source={x:Reference Root}}"
+            <Label Grid.Row="1" Grid.Column="1"
+                   Text="{Binding IngredientsPreview}"
+                   TextColor="{DynamicResource TextSecondary}"
                    FontSize="13"
-                   Opacity="0.85"
                    LineBreakMode="WordWrap"
                    MaxLines="3" />
 
-            <!-- Optional nav buttons (transparent overlays) -->
-            <Grid Grid.Row="1" Grid.Column="0" Grid.RowSpan="2"
-                  IsVisible="{Binding ShowNavButtons, Source={x:Reference Root}}">
+            <!-- Nav buttons : transparent overlays -->
+            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                  IsVisible="{Binding ShowNavButtons}">
                 <Grid ColumnDefinitions="*,*">
                     <Button Grid.Column="0"
-                            BackgroundColor="Transparent"
-                            Command="{Binding LeftCommand, Source={x:Reference Root}}"
+                            BackgroundColor="{DynamicResource accElementBackground}"
+                            Command="{Binding LeftCommand}"
                             Opacity="0.01"
                             AutomationProperties.Name="Previous meal" />
+                    
+                    <!-- accElement allows for an accesability theme to make nav buttons visible-->
                     <Button Grid.Column="1"
-                            BackgroundColor="Transparent"
-                            Command="{Binding RightCommand, Source={x:Reference Root}}"
+                            BackgroundColor="{DynamicResource accElementBackground}"
+                            Command="{Binding RightCommand}"
                             Opacity="0.01"
                             AutomationProperties.Name="Next meal" />
                 </Grid>
             </Grid>
-
+            
+        <!-- grid inside the first border to allow the image to be set in another border-->
         </Grid>
     </Border>
-
-    
-
 </ContentView>

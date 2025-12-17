@@ -74,6 +74,12 @@
 	  <MauiXaml Update="Resources\Styles\ColorsLight.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Controls\IngredientListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Controls\InstructionListView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\MealFeatureView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

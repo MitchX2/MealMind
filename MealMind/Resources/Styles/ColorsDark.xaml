@@ -26,4 +26,12 @@
     <Color x:Key="ButtonSecondaryBackground">#1E1E1E</Color>
     <Color x:Key="ButtonSecondaryText">#F09A5A</Color>
 
+
+    <!-- accElement : used to colour transparent buttons in accesability theme-->
+    <Color x:Key="accElementBackground">Transparent</Color>
+
+
+    <!-- MealFeatureCard -->
+    <Color x:Key="CardBackground">#FFFFFF</Color>
+
 </ResourceDictionary>
