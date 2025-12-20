@@ -17,11 +17,14 @@ public partial class TitleBannerView : ContentView
 		if (state.Location.OriginalString == "//home")
 			// If we are do nothing
 			return;
-		else
-			//otherwise go to home / MAinPage
-			//await Shell.Current.GoToAsync("");
-			
-			// return for now until the rest is made up
+		else {
+			// Otherwise go to home / MAinPage
+
+			await Shell.Current.GoToAsync("//MainPage");
+		}
+
+		//return for now until the rest is made up
+
 			return;
 	}
 }

@@ -4,55 +4,56 @@
              x:Class="MealMind.Views.Controls.NavBarView"
              HeightRequest="60"
              BackgroundColor="SlateGray">
+
+    <!-- Reusable bottom navigation bar.
+     Provides quick access to the main sections of the app and is shared across pages -->
+
+
+    <!-- Five-column grid ensures evenly spaced navigation icons -->
+    <Grid Padding="10"
+          ColumnSpacing="10"
+          ColumnDefinitions="*,*,*,*,*"
+          HorizontalOptions="Center"
+          BackgroundColor="{DynamicResource CardBackground}">
+
+        <!-- Navigation buttons use a shared style for consistent sizing and touch targets -->
+        <!-- Style centralises icon size, padding, and visual behaviour -->
+        <ImageButton Grid.Column="0"
+        
+             x:Name="SettingsBtn"
+             Source="settings_img.png"
+             Style="{StaticResource NavBarIconButtonStyle}"
+             Clicked="Settings_Clicked" />
+
+        <ImageButton Grid.Column="1"
+            x:Name="ShoppingListNavBtn"
+            Source="shoppinglist_img.png"
+             Style="{StaticResource NavBarIconButtonStyle}"
+             Clicked="Shopping_Clicked" />
+
+        
+        <ImageButton Grid.Column="2"
+             x:Name="FavouritesNavBtn"
+             Source="favourites_img.png"                 
+             Style="{StaticResource NavBarIconButtonStyle}"
+             Clicked="Favourites_Clicked" />
     
+        <ImageButton Grid.Column="3"
+             x:Name="MealPlanNavBtn"
+             Source="mealplan_navbar_img.png"
+             Style="{StaticResource NavBarIconButtonStyle}"
+             Clicked="MealPlan_Clicked" />
 
-        <Grid Padding="10"
-              ColumnSpacing="10"
-              ColumnDefinitions="*,*,*,*,*"
-              HorizontalOptions="Center">
-
-            <!-- 5 NavButton's non-descript names allowing for customisation-->
-            <ImageButton 
-                Grid.Column="0"
-                x:Name="NavButton_A"
-                Source="appicon.png"
-                BackgroundColor="White"
-                Clicked="NavButton_A_Clicked" />
-            <!-- Grey for now to line up before images are set -->
-
-            <ImageButton 
-                Grid.Column="1"
-                x:Name="NavButton_B"
-                Source="appicon.png"
-                BackgroundColor="Teal"
-                Clicked="NavButton_B_Clicked" />
-            <ImageButton 
-                Grid.Column="2"
-                x:Name="NavButton_C"
-                Source="appicon.png"
-                BackgroundColor="Purple"
-                Clicked="NavButton_C_Clicked" />
-            <ImageButton 
-                Grid.Column="3"
-                x:Name="NavButton_D"
-                Source="appicon.png"
-                BackgroundColor="Yellow"
-                Clicked="NavButton_D_Clicked" />
-            <ImageButton 
-                Grid.Column="4"
-                x:Name="NavButton_E"
-                Source="appicon.png"
-                BackgroundColor="ForestGreen"
-                Clicked="NavButton_E_Clicked" />
-
-
+        <ImageButton Grid.Column="4"
+            x:Name="SearchNavBtn"
+            Source="search_img.png"
+            Style="{StaticResource NavBarIconButtonStyle}"
+            Clicked="Search_Clicked" />
 
         </Grid>
-              
-        
-    
-    
-    <!-- The NavBar currently displays on MainPage and shows:
-            5 rough buttons on the bottom spaced towards the left
-            Removed HorizontalStackLayout so theyre Centered at min -->
+
+
+
+    <!-- Grid layout is used instead of a HorizontalStackLayout
+     to keep icons centred and evenly spaced at all screen widths -->
 </ContentView>

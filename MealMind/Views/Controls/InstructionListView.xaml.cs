@@ -1,4 +1,6 @@
+using MealMind.Models;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace MealMind.Views.Controls;
 
@@ -7,12 +9,9 @@ public partial class InstructionListView : ContentView
     public InstructionListView()
     {
         InitializeComponent();
-        BindingContext = this;
-        UpdateEmptyFlags();
     }
 
     // ===== Title =====
-
     public static readonly BindableProperty TitleProperty =
         BindableProperty.Create(nameof(Title), typeof(string), typeof(InstructionListView), "Instructions");
 
@@ -32,7 +31,6 @@ public partial class InstructionListView : ContentView
     }
 
     // ===== Empty State =====
-
     public static readonly BindableProperty EmptyTextProperty =
         BindableProperty.Create(nameof(EmptyText), typeof(string), typeof(InstructionListView), "No instructions available.");
 
@@ -42,10 +40,10 @@ public partial class InstructionListView : ContentView
         set => SetValue(EmptyTextProperty, value);
     }
 
-    // ===== Checkbox toggle =====
-
+    // ===== Checkbox toggle (external) =====
     public static readonly BindableProperty ShowCheckboxProperty =
-        BindableProperty.Create(nameof(ShowCheckbox), typeof(bool), typeof(InstructionListView), true);
+        BindableProperty.Create(nameof(ShowCheckbox), typeof(bool), typeof(InstructionListView), true,
+            propertyChanged: (b, o, n) => ((InstructionListView)b).UpdateEmptyFlags());
 
     public bool ShowCheckbox
     {
@@ -54,22 +52,22 @@ public partial class InstructionListView : ContentView
     }
 
     // ===== Items =====
-
     public static readonly BindableProperty ItemsProperty =
         BindableProperty.Create(
             nameof(Items),
-            typeof(ObservableCollection<InstructionRow>),
+            typeof(ObservableCollection<InstructionStep>),
             typeof(InstructionListView),
-            new ObservableCollection<InstructionRow>(),
-            propertyChanged: (b, o, n) => ((InstructionListView)b).UpdateEmptyFlags());
+            null,
+            propertyChanged: (b, o, n) => ((InstructionListView)b).OnItemsChanged(o, n)
+        );
 
-    public ObservableCollection<InstructionRow> Items
+    public ObservableCollection<InstructionStep>? Items
     {
-        get => (ObservableCollection<InstructionRow>)GetValue(ItemsProperty);
+        get => (ObservableCollection<InstructionStep>?)GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
     }
 
-    // Flags for XAML
+    // ===== Flags for XAML =====
     public static readonly BindableProperty IsEmptyProperty =
         BindableProperty.Create(nameof(IsEmpty), typeof(bool), typeof(InstructionListView), true);
 
@@ -88,25 +86,46 @@ public partial class InstructionListView : ContentView
         private set => SetValue(IsNotEmptyProperty, value);
     }
 
+    // Internal: respects VM flag AND hides when only 1 step
+    public static readonly BindableProperty EffectiveShowCheckboxProperty =
+        BindableProperty.Create(nameof(EffectiveShowCheckbox), typeof(bool), typeof(InstructionListView), true);
+
+    public bool EffectiveShowCheckbox
+    {
+        get => (bool)GetValue(EffectiveShowCheckboxProperty);
+        private set => SetValue(EffectiveShowCheckboxProperty, value);
+    }
+
+    protected override void OnParentSet()
+    {
+        base.OnParentSet();
+        UpdateEmptyFlags();
+    }
+
+    private void OnItemsChanged(object? oldValue, object? newValue)
+    {
+        if (oldValue is ObservableCollection<InstructionStep> oldCol)
+            oldCol.CollectionChanged -= OnCollectionChanged;
+
+        if (newValue is ObservableCollection<InstructionStep> newCol)
+            newCol.CollectionChanged += OnCollectionChanged;
+
+        UpdateEmptyFlags();
+    }
+
+    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        UpdateEmptyFlags();
+    }
+
     private void UpdateEmptyFlags()
     {
         var hasItems = Items != null && Items.Count > 0;
         IsEmpty = !hasItems;
         IsNotEmpty = hasItems;
 
-        // Optional: if only 1 instruction, you might prefer no checkbox
-        if (hasItems && Items.Count == 1)
-        {
-            // Uncomment if you want this behaviour automatically:
-            // ShowCheckbox = false;
-        }
+        // Respect VM setting, but also hide checkbox when only 1 step
+        var hideBecauseSingleStep = hasItems && Items!.Count == 1;
+        EffectiveShowCheckbox = ShowCheckbox && !hideBecauseSingleStep;
     }
-}
-
-// Simple display row model (can later be replaced with your Recipe model)
-public class InstructionRow
-{
-    public string Number { get; set; } = "1."; // "1.", "2.", etc.
-    public string Text { get; set; } = "";
-    public bool IsDone { get; set; }
 }

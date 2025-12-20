@@ -25,20 +25,28 @@ namespace MealMind.Utilities
         public static void ApplySavedTheme() =>
             ApplyTheme(GetSavedTheme());
 
-        
+
         public static void ApplyTheme(string theme)
         {
             var merged = Application.Current!.Resources.MergedDictionaries;
 
-            RemoveThemes(merged);
+            RemoveOverrides(merged); // remove only light/dark overrides
 
-            merged.Add(theme switch
-            {
-                "Dark" => new ColorsDark(),
-                "Light" => new ColorsLight(),
-                "Default" => new ColorsDefault(),
-                _ => new ColorsDefault()
-            });
+            // Default = no override dictionary (base ColorsDefault.xaml stays)
+            if (theme == "Dark")
+                merged.Add(new ColorsDark());
+            else if (theme == "Light")
+                merged.Add(new ColorsLight());
+        }
+
+        private static void RemoveOverrides(ICollection<ResourceDictionary> merged)
+        {
+            var toRemove = merged
+                .Where(d => d is ColorsDark || d is ColorsLight)
+                .ToList();
+
+            foreach (var d in toRemove)
+                merged.Remove(d);
         }
 
 

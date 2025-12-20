@@ -8,7 +8,9 @@ using MealMind.Models;
 
 namespace MealMind.Models.DTO
 {
-    // Class that enables us to use the MealDTO in Recipe and MealPlan models
+    // MealDTOExtensions
+    // Maps API DTOs (MealDTO) into app models (Recipe).
+    // Keeps API parsing/mapping out of ViewModels so the UI layer stays clean.
     public static class MealDTOExtensions
     {
 
@@ -16,7 +18,7 @@ namespace MealMind.Models.DTO
         //  Only to be used for new Recipe creation
         public static Recipe ToRecipe(this MealDTO dto)
         {
-            // defaults incase nulls
+            // API fields can be null, so  normalised to a safe strings
             var id = dto.IdMeal?.Trim() ?? "";
             var name = dto.StrMeal?.Trim() ?? "";
 
@@ -39,14 +41,15 @@ namespace MealMind.Models.DTO
                 DateModified = ParseDateModified(dto.DateModified),
 
                 // App-specific fields default on creation
+                // That are tracked locally for favourites, usage counters, and offline features.
                 IsFavourite = false,
                 TimesCooked = 0,
                 DateSaved = DateTime.UtcNow,
                 OnMealCalendar = false
             };
 
-            
-            // Ingredients (from the 1..20 fields via your iterator)
+
+            // Convert DTO ingredient/measure pairs into IngredientLine objects used by the UI.
             foreach (var (ingredient, measure) in dto.EnumerateIngredients())
             {
                 recipe.Ingredients.Add(new IngredientLine
@@ -57,6 +60,7 @@ namespace MealMind.Models.DTO
             }
 
             // Instructions -> steps
+            // Split the raw instruction text into numbered steps for display and optional checkbox ticking.
             foreach (var step in SplitInstructions(dto.StrInstructions))
             {
                 recipe.Steps.Add(step);
@@ -69,6 +73,7 @@ namespace MealMind.Models.DTO
         }
 
 
+        // Converts the API's "Yes/No/1/0" style value into a nullable bool.
 
         private static bool? ParseCreativeCommons(string? value)
         {
@@ -85,6 +90,9 @@ namespace MealMind.Models.DTO
 
             return null;
         }
+
+
+        // Parses TheMealDB "dateModified" field into a nullable DateTime (UTC).
 
         private static DateTime? ParseDateModified(string? value)
         {
@@ -103,7 +111,7 @@ namespace MealMind.Models.DTO
 
 
 
-        // Cycle through instructions for a recipe
+        // Converts the instruction paragraph into individual numbered steps.
         private static IEnumerable<InstructionStep> SplitInstructions(string? instructions)
         {
             if (string.IsNullOrWhiteSpace(instructions))
@@ -118,8 +126,9 @@ namespace MealMind.Models.DTO
                 .Select(s => s.Trim())
                 .Where(s => s.Length > 0);
 
-            int stepNo = 1;
 
+            // Number steps starting from 1 for UI display.
+            int stepNo = 1;
 
             foreach (var line in lines)
             {
@@ -134,7 +143,7 @@ namespace MealMind.Models.DTO
             }
         }
 
-        // Cycle through tags for a recipe
+        // Splits comma-separated tag text into a clean list.
         private static IEnumerable<string> ParseTags(string? tagsRaw)
         {
             if (string.IsNullOrWhiteSpace(tagsRaw))
@@ -149,19 +158,6 @@ namespace MealMind.Models.DTO
         }
 
 
-        // If we want to clean the urls further in future
-        private static string? CleanUrl(string? url)
-        {
-            if (string.IsNullOrWhiteSpace(url)) return null;
-
-            var u = url.Trim();
-
-            // Basic sanity: if it doesn't look like a URL, don't store it
-            if (!u.StartsWith("http://", StringComparison.OrdinalIgnoreCase) &&
-                !u.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-                return null;
-
-            return u;
-        }
+        
     }
 }

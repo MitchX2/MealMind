@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MealMind.Models
 {
+    // IngredientLine
+    // Represents a single ingredient and its measurement in a recipe.
+    // Used by Recipe and ShoppingList features.
     public class IngredientLine
     {
         public string Name { get; init; } = "";     // "Soy Sauce"

@@ -1,36 +1,97 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MealMind.Views.Controls"
+             xmlns:vm="clr-namespace:MealMind.ViewModels"
              x:Class="MealMind.MainPage"
-             xmlns:controls="clr-namespace:MealMind.Views.Controls" >
+             x:DataType="vm:MainPageViewModel"
+             x:Name="Root">
 
-    <!-- Putting the page in a grid to ensure the TitleBanner and NavBer 
-            Stay where theyre suppose to be 
-            Auto used to esure they take up space difined in the class-->
+    
     <Grid RowDefinitions="Auto,*,Auto">
 
-        <!-- Banner at top roe 0-->
+        <!-- Main layout: Header (row 0), Scrollable content (row 1), Bottom NavBar (row 2) -->
+        
         <controls:TitleBannerView Grid.Row="0" />
 
-        <!-- Main content  in the center-->
-        <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="20" Spacing="15">
-                <!-- Test display-->
-                <Label Text="Display Label for the MainPage test"
-                       FontSize="20"/>
+        <!-- Middle scrollable content. Max width keeps UI readable on tablets/desktop -->
+        <ScrollView Grid.Row="1"
+                    HorizontalOptions="Fill"
+                    MaximumWidthRequest="500">
+
+            <VerticalStackLayout Spacing="16" Padding="0">
+
+                <!-- FeatureCards for Meal of the Day, Plan, Random Favourite-->
+                <CollectionView x:Name="FeatureCarousel"
+                                ItemsSource="{Binding FeatureCards}"
+                                ItemsLayout="HorizontalList"
+                                SelectionMode="None"
+                                HorizontalScrollBarVisibility="Never"
+                                HeightRequest="200"
+                                HorizontalOptions="Center">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:FeatureCardVm">
+
+                            <!-- Each carousel item uses the page's CarouselItemWidth so cards fill the screen width cleanly. -->
+                            <Grid WidthRequest="{Binding BindingContext.CarouselItemWidth, Source={x:Reference Root}}"
+                                  HorizontalOptions="Fill">
+
+                                <controls:MealFeatureView
+                                    BadgeText="{Binding BadgeText}"
+                                    Title="{Binding Title}"
+                                    IngredientsPreview="{Binding IngredientsPreview}"
+                                    MaximumWidthRequest="500"
+                                    HorizontalOptions="Center"
+                                    TapCommand="{Binding TapCommand}"
+                                    TapCommandParameter="{Binding TapCommandParameter}"
+                                    ShowNavButtons="True"
+                                    EnableSwipe="True"
+                                    IsLeftEnabled="{Binding BindingContext.CanGoLeft, Source={x:Reference Root}}"
+                                    IsRightEnabled="{Binding BindingContext.CanGoRight, Source={x:Reference Root}}"
+                                    LeftCommand="{Binding BindingContext.PrevFeatureCommand, Source={x:Reference Root}}"
+                                    RightCommand="{Binding BindingContext.NextFeatureCommand, Source={x:Reference Root}}">
+
+                                        <controls:MealFeatureView.MealImage>
+                                            <Binding Path="Image" />
+                                        </controls:MealFeatureView.MealImage>
+
+                                </controls:MealFeatureView>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Quick navigation buttons -->
+
+                <controls:SearchAccordionView
+                    IsExpanded="{Binding IsSearchExpanded}"
+                    SearchText="{Binding SearchText}"
+                    IngredientsText="{Binding IngredientsText}"
+                    ToggleExpandedCommand="{Binding ToggleSearchExpandedCommand}"
+                    SearchCommand="{Binding SearchCommand}"
+                    AdvancedSearchCommand="{Binding AdvancedSearchCommand}" />
+
+                <!-- Shell navigation commands in MainPageViewModel -->
+                <Button Text="Favorites"
+                        Command="{Binding GoToFavoritesCommand}" />
+
+                <Button Text="My Meal Plan"
+                        Command="{Binding GoToMealPlanCommand}" />
+
+                <!-- Didnt have time to implement pantry yet
+                <Button Text="Pantry"
+                        Command="{Binding GoToPantryCommand}" /> -->
                 
-                <!-- Put MealFeatureView and search content here -->
-                
-            
+                <Button Text="Shopping List"
+                        Command="{Binding GoToShoppingListCommand}" />
+
             </VerticalStackLayout>
         </ScrollView>
 
-        <!-- Nav bar fixed at bottom  row 3-->
+        <!-- Bottom NavBar -->
         <controls:NavBarView Grid.Row="2" />
 
     </Grid>
-
-
 </ContentPage>
-
-    

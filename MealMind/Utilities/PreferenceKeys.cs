@@ -8,6 +8,8 @@ namespace MealMind.Utilities
 {
     public static class PreferenceKeys
     {
+        // Enables using AppTheme without quotes by setting it as a constant.
+        // Also helps avoid typos in preference key strings.
         public const string AppTheme = "AppTheme";
     }
 }

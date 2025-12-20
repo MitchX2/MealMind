@@ -1,4 +1,6 @@
+using MealMind.Models;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace MealMind.Views.Controls;
 
@@ -7,8 +9,8 @@ public partial class IngredientListView : ContentView
     public IngredientListView()
     {
         InitializeComponent();
-        BindingContext = this;
-        UpdateEmptyFlags();
+        
+        
     }
 
     // ===== Title =====
@@ -43,19 +45,18 @@ public partial class IngredientListView : ContentView
         set => SetValue(EmptyTextProperty, value);
     }
 
-    // ===== Items =====
-
     public static readonly BindableProperty ItemsProperty =
-        BindableProperty.Create(
-            nameof(Items),
-            typeof(ObservableCollection<IngredientRow>),
-            typeof(IngredientListView),
-            new ObservableCollection<IngredientRow>(),
-            propertyChanged: (b, o, n) => ((IngredientListView)b).UpdateEmptyFlags());
+    BindableProperty.Create(
+        nameof(Items),
+        typeof(ObservableCollection<IngredientLine>),
+        typeof(IngredientListView),
+        null,
+        propertyChanged: (b, o, n) => ((IngredientListView)b).OnItemsChanged(o, n)
+    );
 
-    public ObservableCollection<IngredientRow> Items
+    public ObservableCollection<IngredientLine>? Items
     {
-        get => (ObservableCollection<IngredientRow>)GetValue(ItemsProperty);
+        get => (ObservableCollection<IngredientLine>?)GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
     }
 
@@ -78,17 +79,39 @@ public partial class IngredientListView : ContentView
         private set => SetValue(IsNotEmptyProperty, value);
     }
 
+
+
+
+    private void OnItemsChanged(object? oldValue, object? newValue)
+    {
+        if (oldValue is ObservableCollection<IngredientLine> oldCol)
+            oldCol.CollectionChanged -= OnCollectionChanged;
+
+        if (newValue is ObservableCollection<IngredientLine> newCol)
+            newCol.CollectionChanged += OnCollectionChanged;
+
+        UpdateEmptyFlags();
+    }
+
+    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        UpdateEmptyFlags();
+    }
+
     private void UpdateEmptyFlags()
     {
+        // correcting null issue for items
         var hasItems = Items != null && Items.Count > 0;
         IsEmpty = !hasItems;
         IsNotEmpty = hasItems;
     }
+
+
+    // changed from OnAppearing to OnParentSet to react to Page changes
+    protected override void OnParentSet()
+    {
+        base.OnParentSet();
+        UpdateEmptyFlags();
+    }
 }
 
-// Simple display row model (can be replaced later with your Recipe model)
-public class IngredientRow
-{
-    public string Name { get; set; } = "";
-    public string Measure { get; set; } = "";
-}

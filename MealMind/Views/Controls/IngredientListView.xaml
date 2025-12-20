@@ -4,7 +4,9 @@
              x:Class="MealMind.Views.Controls.IngredientListView"
              x:Name="Root">
 
-    
+    <!-- Reusable ingredient list control.
+     Displays ingredients and measures in a themed card, with optional title + empty state support. -->
+
     <Border StrokeThickness="1"
             Stroke="{DynamicResource BorderColor}"
             BackgroundColor="{DynamicResource CardBackground}"
@@ -18,26 +20,29 @@
 
         <VerticalStackLayout Spacing="10">
 
-            <!-- Optional title -->
-            <Label Text="{Binding Title}"
-                   IsVisible="{Binding ShowTitle }"
-                   TextColor="{DynamicResource TextPrimary}"
+            <!-- Optional title provided by the parent page (Title + ShowTitle bindables) -->
+
+            <Label Text="{Binding Title, Source ={x:Reference Root}}"
+                   IsVisible="{Binding ShowTitle ,Source ={x:Reference Root}}"
+                   TextColor="{DynamicResource PrimaryText}"
                    FontAttributes="Bold"
                    FontSize="16" />
 
-            <!-- Empty state -->
-            <Label Text="{Binding EmptyText }"
-                   IsVisible="{Binding IsEmpty }"
-                   TextColor="{DynamicResource TextSecondary}"
+            <!-- Empty state shown when there are no ingredients (IsEmpty / IsNotEmpty computed in code-behind) -->
+            <Label Text="{Binding EmptyText ,Source ={x:Reference Root}}"
+                   IsVisible="{Binding IsEmpty ,Source ={x:Reference Root}}"
+                   TextColor="{DynamicResource SecondaryText}"
                    FontSize="13" />
 
-            <!-- List -->
-            <CollectionView ItemsSource="{Binding Items }"
-                            IsVisible="{Binding IsNotEmpty }"
+            <!-- Ingredients list bound via x:Reference Root so the control can be reused with any parent ViewModel -->
+            <CollectionView ItemsSource="{Binding Items ,Source={x:Reference Root}}"
+                            IsVisible="{Binding IsNotEmpty ,Source={x:Reference Root}}"
                             SelectionMode="None">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+
+                        <!-- Two-column row: ingredient name (left) and measure text (right) -->
                         <Grid ColumnDefinitions="*,Auto"
                               RowDefinitions="Auto"
                               ColumnSpacing="12"
@@ -45,13 +50,13 @@
 
                             <Label Grid.Column="0"
                                    Text="{Binding Name}"
-                                   TextColor="{DynamicResource TextPrimary}"
+                                   TextColor="{DynamicResource PrimaryText}"
                                    FontSize="14"
                                    LineBreakMode="TailTruncation" />
 
                             <Label Grid.Column="1"
-                                   Text="{Binding Measure}"
-                                   TextColor="{DynamicResource TextSecondary}"
+                                   Text="{Binding MeasureRaw}"
+                                   TextColor="{DynamicResource SecondaryText}"
                                    FontSize="13"
                                    HorizontalTextAlignment="End" />
 

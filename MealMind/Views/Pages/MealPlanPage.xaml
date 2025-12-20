@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MealMind.ViewModels"
+             xmlns:controls="clr-namespace:MealMind.Views.Controls"
+             x:Class="MealMind.Views.Pages.MealPlanPage"
+             Title="Meal Plan">
+
+    <!-- Page layout: Header (row 0), Scrollable content (row 1), Bottom NavBar (row 2) -->
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Header -->
+        <controls:TitleBannerView Grid.Row="0" />
+
+        <!-- Main content -->
+        <ScrollView Grid.Row="1">
+            <Grid Padding="16"
+                  RowDefinitions="Auto,*"
+                  RowSpacing="12">
+
+                <!-- Week selector -->
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="Auto,*,Auto"
+                      VerticalOptions="Start">
+
+                    <Button Text="◀"
+                            Clicked="PrevWeek_Clicked" />
+
+                    <Label Grid.Column="1"
+                           Text="{Binding WeekLabel}"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           FontAttributes="Bold"
+                           FontSize="16" />
+
+                    <Button Grid.Column="2"
+                            Text="▶"
+                            Clicked="NextWeek_Clicked" />
+                </Grid>
+
+                <!-- Days of the week (fills remaining space) -->
+                <CollectionView Grid.Row="1"
+                                ItemsSource="{Binding Days}"
+                                SelectionMode="None"
+                                MaximumWidthRequest="500"
+                                HorizontalOptions="Fill">
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeThickness="1"
+                                    Stroke="{DynamicResource BorderColor}"
+                                    BackgroundColor="{DynamicResource CardBackground}"
+                                    StrokeShape="RoundRectangle 18"
+                                    Padding="12"
+                                    Margin="0,4">
+
+                                <Grid ColumnDefinitions="Auto,*,Auto"
+                                      RowDefinitions="Auto,Auto"
+                                      ColumnSpacing="12">
+
+                                    <!-- Day + date -->
+                                    <VerticalStackLayout Grid.RowSpan="2">
+                                        <Label Text="{Binding DayName}"
+                                               FontAttributes="Bold" />
+                                        <Label Text="{Binding DateShort}"
+                                               FontSize="12"
+                                               TextColor="{DynamicResource SecondaryText}" />
+                                    </VerticalStackLayout>
+
+                                    <!-- Meal name -->
+                                    <Label Grid.Column="1"
+                                           Text="{Binding MealName}"
+                                           VerticalOptions="Center"
+                                           LineBreakMode="TailTruncation" />
+
+                                    <!-- Completed checkbox -->
+                                    <CheckBox Grid.Column="2"
+                                              IsChecked="{Binding IsCompleted}"
+                                              IsEnabled="{Binding HasMeal}"
+                                              CheckedChanged="Completed_CheckedChanged"
+                                              VerticalOptions="Center" />
+
+                                    <!-- Action buttons -->
+                                    <HorizontalStackLayout Grid.Row="1"
+                                                           Grid.Column="1"
+                                                           Grid.ColumnSpan="2"
+                                                           Spacing="10">
+
+                                        <!-- Add (only when empty) -->
+                                        <Button Text="Add"
+                                                Clicked="AddForDay_Clicked">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button"
+                                                             Binding="{Binding HasMeal}"
+                                                             Value="True">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+
+                                        <!-- View (only when has meal) -->
+                                        <Button Text="View"
+                                                Clicked="ViewMeal_Clicked">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button"
+                                                             Binding="{Binding HasMeal}"
+                                                             Value="False">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+
+                                        <!-- Clear (only when has meal) -->
+                                        <Button Text="Clear"
+                                                Clicked="ClearDay_Clicked">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button"
+                                                             Binding="{Binding HasMeal}"
+                                                             Value="False">
+                                                    <Setter Property="IsVisible" Value="False" />
+                                                </DataTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+
+                                    </HorizontalStackLayout>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </Grid>
+        </ScrollView>
+
+        <!-- Bottom NavBar -->
+        <controls:NavBarView Grid.Row="2" />
+
+    </Grid>
+</ContentPage>

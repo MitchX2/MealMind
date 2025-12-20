@@ -1,3 +1,5 @@
+using MealMind.Views.Pages;
+
 namespace MealMind.Views.Controls;
 
 public partial class NavBarView : ContentView
@@ -6,48 +8,23 @@ public partial class NavBarView : ContentView
 	{
 		InitializeComponent();
 	
-		// Load NavBar Buttons from settings/Config
+		
 	
 	}
 
-	async void NavButton_A_Clicked(object sender, EventArgs e)
-	{
-        //await Shell.Current.GoToAsync("//PlaceHolder");
+    private async void Settings_Clicked(object sender, EventArgs e)
+    => await Shell.Current.GoToAsync(nameof(SettingsPage));
 
-        // return for now until the rest is made up
-        return;
-    }
+    private async void Shopping_Clicked(object sender, EventArgs e)
+        => await Shell.Current.GoToAsync(nameof(ShoppingListPage));
 
-    async void NavButton_B_Clicked(object sender, EventArgs e)
-    {
-        //await Shell.Current.GoToAsync("//PlaceHolder");
+    private async void Favourites_Clicked(object sender, EventArgs e)
+        => await Shell.Current.GoToAsync(nameof(FavoritesPage));
 
-        // return for now until the rest is made up
-        return;
-    }
+    private async void MealPlan_Clicked(object sender, EventArgs e)
+        => await Shell.Current.GoToAsync(nameof(MealPlanPage));
 
-    async void NavButton_C_Clicked(object sender, EventArgs e)
-    {
-        //await Shell.Current.GoToAsync("//PlaceHolder");
-
-        // return for now until the rest is made up
-        return;
-    }
-
-    async void NavButton_D_Clicked(object sender, EventArgs e)
-    {
-        //await Shell.Current.GoToAsync("//PlaceHolder");
-
-        // return for now until the rest is made up
-        return;
-    }
-
-    async void NavButton_E_Clicked(object sender, EventArgs e)
-    {
-        //await Shell.Current.GoToAsync("//PlaceHolder");
-
-        // return for now until the rest is made up
-        return;
-    }
+    private async void Search_Clicked(object sender, EventArgs e)
+        => await Shell.Current.GoToAsync(nameof(SearchPage));
 
 }

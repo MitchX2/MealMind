@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace MealMind.Models
 {
-    class MealPlan
+    public class MealPlan
     {
+
+
     }
 }

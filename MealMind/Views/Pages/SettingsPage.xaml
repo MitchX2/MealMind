@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MealMind.ViewModels"
+             xmlns:settings="clr-namespace:MealMind.Models.Settings"
+             xmlns:controls="clr-namespace:MealMind.Views.Controls"
+             x:Class="MealMind.Views.Pages.SettingsPage"
+             x:DataType="vm:SettingsPageViewModel"
+             Title="Settings">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Page layout: Header (row 0), Content (row 1), Bottom NavBar (row 2) -->
+        
+        <controls:TitleBannerView Grid.Row="0" />
+
+        <!-- Scrollable settings content -->
+        <ScrollView Grid.Row="1"
+                    MaximumWidthRequest="500"
+                    HorizontalOptions="Fill">
+            <VerticalStackLayout Padding="16" Spacing="14">
+
+                <!-- Appearance settings -->
+                <Border Stroke="{DynamicResource BorderColor}"
+                        BackgroundColor="{DynamicResource CardBackground}"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="12">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Label Text="Appearance"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource PrimaryText}" />
+
+                        <Grid ColumnDefinitions="Auto,*"
+                              ColumnSpacing="10">
+                            <Label Grid.Column="0"
+                                   Text="Theme"
+                                   VerticalOptions="Center" />
+
+                            <Picker Grid.Column="1"
+                                    Title="Theme"
+                                    HorizontalOptions="Fill"
+                                    SelectedItem="{Binding Theme}">
+                                
+                                <!-- Theme picker bound to AppThemePreference enum -->
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type settings:AppThemePreference}">
+                                        <settings:AppThemePreference>System</settings:AppThemePreference>
+                                        <settings:AppThemePreference>Light</settings:AppThemePreference>
+                                        <settings:AppThemePreference>Dark</settings:AppThemePreference>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Accessibility settings card -->
+                <Border Stroke="{DynamicResource BorderColor}"
+                        BackgroundColor="{DynamicResource CardBackground}"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="12">
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Accessibility"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource PrimaryText}" />
+
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="High-contrast touch zones" VerticalOptions="Center" />
+                            <Switch IsToggled="{Binding HighContrastTouchZones}" />
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Recipe behaviour settings -->
+                <Border Stroke="{DynamicResource BorderColor}"
+                        BackgroundColor="{DynamicResource CardBackground}"
+                        StrokeShape="RoundRectangle 18"
+                        Padding="12">
+
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Recipes"
+                               FontAttributes="Bold"
+                               TextColor="{DynamicResource PrimaryText}" />
+
+                        <!-- Controls whether instruction checkboxes are shown by default -->
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="Show instruction checkboxes" VerticalOptions="Center" />
+                            <Switch IsToggled="{Binding ShowInstructionCheckboxes}" />
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <controls:NavBarView Grid.Row="2" />
+
+    </Grid>
+</ContentPage>

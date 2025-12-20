@@ -3,42 +3,85 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     x:Class="MealMind.Resources.Styles.ColorsLight">
 
-    <Color x:Key="AppBackground">#F9FAF7</Color>
+    <!-- ========================= -->
+    <!-- Core backgrounds -->
+    <!-- ========================= -->
+
+    <!-- App background: warm cream -->
+    <Color x:Key="AppBackground">#F6F0D7</Color>
+
+    <!-- Surfaces / cards -->
     <Color x:Key="SurfaceBackground">#FFFFFF</Color>
+    <Color x:Key="CardBackground">#FFFFFF</Color>
 
-    <Color x:Key="PrimaryText">#1F2933</Color>
-    <Color x:Key="SecondaryText">#6B7280</Color>
 
-    
-
+    <!-- ========================= -->
     <!-- Text -->
-    <Color x:Key="MutedText">#9CA3AF</Color>
+    <!-- ========================= -->
 
+    <!-- Primary text: deep olive -->
+    <Color x:Key="PrimaryText">#2F3A23</Color>
+
+    <!-- Secondary text -->
+    <Color x:Key="SecondaryText">#5E6A4D</Color>
+
+    <!-- Muted text -->
+    <Color x:Key="MutedText">#7E8A6A</Color>
+
+
+    <!-- ========================= -->
     <!-- Accent / brand -->
-    <Color x:Key="Accent">#E07A3F</Color>
-    <!-- warm food-orange -->
-    <Color x:Key="AccentSoft">#F4E3D6</Color>
+    <!-- ========================= -->
 
+    <!-- Primary accent -->
+    <Color x:Key="Accent">#89986D</Color>
+
+    <!-- Soft accent for highlights -->
+    <Color x:Key="AccentSoft">#C5D89D</Color>
+
+
+    <!-- ========================= -->
     <!-- UI elements -->
-    <Color x:Key="BorderColor">#E5E7EB</Color>
-    <Color x:Key="DividerColor">#D1D5DB</Color>
+    <!-- ========================= -->
 
+    <!-- Borders & dividers -->
+    <Color x:Key="BorderColor">#D6D1B8</Color>
+    <Color x:Key="DividerColor">#E1DBC2</Color>
+
+
+    <!-- ========================= -->
     <!-- Buttons -->
-    <Color x:Key="ButtonPrimaryBackground">#E07A3F</Color>
+    <!-- ========================= -->
+
+    <!-- Primary button -->
+    <Color x:Key="ButtonPrimaryBackground">#89986D</Color>
     <Color x:Key="ButtonPrimaryText">#FFFFFF</Color>
 
+    <!-- Secondary button -->
     <Color x:Key="ButtonSecondaryBackground">#FFFFFF</Color>
-    <Color x:Key="ButtonSecondaryText">#E07A3F</Color>
+    <Color x:Key="ButtonSecondaryText">#89986D</Color>
 
+
+    <!-- ========================= -->
     <!-- States -->
-    <Color x:Key="DisabledBackground">#E5E7EB</Color>
-    <Color x:Key="DisabledText">#9CA3AF</Color>
+    <!-- ========================= -->
 
-    <!-- accElement : used to colour transparent buttons in accesability theme-->
-    <Color x:Key="accElementBackground">Transparent</Color>
+    <Color x:Key="DisabledBackground">#E6E1C9</Color>
+    <Color x:Key="DisabledText">#9CAB84</Color>
 
 
-    <!-- MealFeatureCard -->
-    <Color x:Key="CardBackground">#FFFFFF</Color>
+    <!-- ========================= -->
+    <!-- Accessibility -->
+    <!-- ========================= -->
+
+    <!-- High-contrast touch overlays -->
+    <Color x:Key="accElementBackground">#33000000</Color>
+
+
+    <!-- ========================= -->
+    <!-- Debug flag -->
+    <!-- ========================= -->
+
+    <x:String x:Key="__ColorsLightLoaded">YES</x:String>
 
 </ResourceDictionary>

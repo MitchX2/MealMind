@@ -4,7 +4,6 @@
              x:Class="MealMind.Views.Controls.MealFeatureView"
              x:Name="Root">
 
-
     <!-- Card -->
     <Border StrokeThickness="1"
             Stroke="{DynamicResource BorderColor}"
@@ -18,7 +17,7 @@
         </Border.Shadow>
 
         <!-- Single child of Border -->
-        <Grid RowDefinitions="Auto,Auto"
+        <Grid RowDefinitions="Auto,Auto,Auto"
               ColumnDefinitions="Auto,*"
               RowSpacing="8"
               ColumnSpacing="12">
@@ -29,53 +28,69 @@
                     StrokeShape="RoundRectangle 14"
                     WidthRequest="110"
                     HeightRequest="110">
-                <Image Aspect="AspectFill"
-                       Source="{Binding MealImage}"
-                       WidthRequest="110"
-                       HeightRequest="110" />
+
+                <!-- Grid used to allow an overlay of the correct image if present -->
+                <Grid>
+                    <!-- Placeholder -->
+                    <Image Source="recipe_placeholder.png"
+                           Aspect="AspectFill"
+                           IsVisible="{Binding NoImage, Source={x:Reference Root}}" />
+
+                    <!-- Real image -->
+                    <Image Source="{Binding MealImage, Source={x:Reference Root}}"
+                           Aspect="AspectFill"
+                           IsVisible="{Binding HasImage, Source={x:Reference Root}}" />
+                </Grid>
+
+                <!-- Tap gesture to open meal details -->
                 <Border.GestureRecognizers>
                     <TapGestureRecognizer
-                        Command="{Binding TapCommand}"
-                        CommandParameter="{Binding TapCommandParameter}" />
+                        Command="{Binding TapCommand, Source={x:Reference Root}}"
+                        CommandParameter="{Binding TapCommandParameter, Source={x:Reference Root}}" />
                 </Border.GestureRecognizers>
             </Border>
 
             <!-- Title -->
             <Label Grid.Row="0" Grid.Column="1"
-                   Text="{Binding Title}"
-                   TextColor="{DynamicResource TextPrimary}"
+                   Text="{Binding Title, Source={x:Reference Root}}"
+                   TextColor="{DynamicResource PrimaryText}"
                    FontAttributes="Bold"
                    FontSize="20"
                    LineBreakMode="TailTruncation" />
 
             <!-- Ingredients preview -->
             <Label Grid.Row="1" Grid.Column="1"
-                   Text="{Binding IngredientsPreview}"
-                   TextColor="{DynamicResource TextSecondary}"
+                   Text="{Binding IngredientsPreview, Source={x:Reference Root}}"
+                   TextColor="{DynamicResource SecondaryText}"
                    FontSize="13"
                    LineBreakMode="WordWrap"
                    MaxLines="3" />
 
-            <!-- Nav buttons : transparent overlays -->
-            <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"
-                  IsVisible="{Binding ShowNavButtons}">
-                <Grid ColumnDefinitions="*,*">
-                    <Button Grid.Column="0"
-                            BackgroundColor="{DynamicResource accElementBackground}"
-                            Command="{Binding LeftCommand}"
-                            Opacity="0.01"
-                            AutomationProperties.Name="Previous meal" />
-                    
-                    <!-- accElement allows for an accesability theme to make nav buttons visible-->
-                    <Button Grid.Column="1"
-                            BackgroundColor="{DynamicResource accElementBackground}"
-                            Command="{Binding RightCommand}"
-                            Opacity="0.01"
-                            AutomationProperties.Name="Next meal" />
-                </Grid>
-            </Grid>
             
-        <!-- grid inside the first border to allow the image to be set in another border-->
+
+            <!-- Nav buttons below content because of overlay issues -->
+            <Grid Grid.Row="2"
+                  Grid.Column="0"
+                  Grid.ColumnSpan="2"
+                  ColumnDefinitions="Auto,*,Auto"
+                  Margin="0,8,0,0"
+                  IsVisible="{Binding ShowNavButtons, Source={x:Reference Root}}">
+
+                <Button Grid.Column="0"
+                        Text="‹ Prev"
+                        BackgroundColor="{DynamicResource accElementBackground}"
+                        Command="{Binding LeftCommand, Source={x:Reference Root}}"
+                        IsEnabled="{Binding IsLeftEnabled, Source={x:Reference Root}}"
+                        SemanticProperties.Description="Previous meal" />
+
+                <Button Grid.Column="2"
+                        Text="Next ›"
+                        BackgroundColor="{DynamicResource accElementBackground}"
+                        Command="{Binding RightCommand, Source={x:Reference Root}}"
+                        IsEnabled="{Binding IsRightEnabled, Source={x:Reference Root}}"
+                        SemanticProperties.Description="Next meal" />
+            </Grid>
+
         </Grid>
     </Border>
 </ContentView>

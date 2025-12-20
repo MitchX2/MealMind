@@ -1,12 +1,115 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:MealMind.Views.Controls"
+             xmlns:vm="clr-namespace:MealMind.ViewModels"
              x:Class="MealMind.Views.Pages.RecipePage"
-             Title="RecipePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             x:DataType="vm:RecipePageViewModel"
+             Title="{Binding Recipe.Name}">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Page layout: Header (row 0), Content (row 1), Bottom NavBar (row 2) -->
+        
+        <controls:TitleBannerView Grid.Row="0" />
+
+        <ScrollView Grid.Row="1"
+                    MaximumWidthRequest="500"
+                    HorizontalOptions="Fill">
+            <VerticalStackLayout Spacing="16" Padding="16">
+
+                <!-- Recipe summary card: image title, primary actions (favourite / meal plan / shopping list) -->
+                <Border BackgroundColor="{DynamicResource CardBackground}"
+                        Stroke="{DynamicResource BorderColor}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 16"
+                        Padding="12">
+
+                    <VerticalStackLayout Spacing="10">
+
+                        <Grid HorizontalOptions="Center"
+                              MaximumWidthRequest="700"
+                              HeightRequest="300">
+
+                            <!-- Recipe image with placeholder fallback (HasImage / NoImage from ViewModel) -->
+                            <Image Source="place_holder_recipe_img.png"
+                                   Aspect="AspectFill"
+                                   IsVisible="{Binding NoImage}" />
+
+                            <Image Aspect="AspectFill"
+                                   IsVisible="{Binding HasImage}">
+                                <Image.Source>
+                                    <UriImageSource Uri="{Binding Recipe.ImageUrl}" />
+                                </Image.Source>
+                            </Image>
+
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*,20,Auto"
+                              MaximumWidthRequest="700"
+                              RowDefinitions="Auto"
+                              Margin="0,0,0,8">
+
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+
+                                <!-- Recipe title and metadata -->
+                                <Label Text="{Binding Recipe.Name}"
+                                       Style="{DynamicResource PrimaryText}" />
+
+                                <HorizontalStackLayout Spacing="12">
+
+                                    <Label Text="{Binding Recipe.Category, StringFormat='Category: {0}'}"
+                                           TextColor="{DynamicResource SecondaryText}"
+                                           FontSize="13" />
+
+                                    <Label Text="{Binding Recipe.Area, StringFormat='Cuisine: {0}'}"
+                                           TextColor="{DynamicResource SecondaryText}"
+                                           FontSize="13" />
+
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+
+                            <!-- Favourite icon bound to FavoriteIcon; click handled in code-behind which calls VM toggle -->
+                            <ImageButton Grid.Column="2"
+                                         Source="{Binding FavoriteIcon}"
+                                         BackgroundColor="Transparent"
+                                         HeightRequest="40"
+                                         WidthRequest="40"
+                                         Padding="6"
+                                         Clicked="OnFavoritesClicked"
+                                         VerticalOptions="Start"
+                                         HorizontalOptions="End" />
+
+                        </Grid>
+
+                        <!-- Meal plan date picker and add button, shopping list add button -->
+                        <HorizontalStackLayout Spacing="10" Margin="0,6,0,8">
+                            <DatePicker x:Name="MealPlanDatePicker" />
+                            <Button Text="Add to Meal Plan"
+                                    Clicked="AddToMealPlan_Clicked"
+                                    IsEnabled="{Binding Recipe}" />
+
+                            <Button Text="Add ingredients to Shopping List"
+                                    Clicked="AddIngredientsToShopping_Clicked" />
+                        </HorizontalStackLayout>
+
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Ingredients and Instructions lists -->
+                <controls:IngredientListView Title="Ingredients"
+                                             ShowTitle="True"
+                                             Items="{Binding Recipe.Ingredients}" />
+
+                <controls:InstructionListView Title="Instructions"
+                                              ShowTitle="True"
+                                              ShowCheckbox="{Binding ShowInstructionCheckboxes}"
+                                              Items="{Binding Recipe.Steps}" />
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Bottom navigation bar -->
+        <controls:NavBarView Grid.Row="2" />
+
+    </Grid>
 </ContentPage>

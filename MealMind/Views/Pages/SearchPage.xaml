@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MealMind.ViewModels"
+             xmlns:controls="clr-namespace:MealMind.Views.Controls"
+             xmlns:models="clr-namespace:MealMind.Models"
+             x:Class="MealMind.Views.Pages.SearchPage"
+             x:DataType="vm:SearchPageViewModel"
+             x:Name="Root">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- layout: Header (row 0), Scrollable content (row 1), Bottom NavBar (row 2)-->
+
+        <controls:TitleBannerView Grid.Row="0" />
+
+        <!-- Let the CollectionView scroll -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Results}"
+                        SelectionMode="None"
+                        Margin="0"
+                        MaximumWidthRequest="500"
+                        HorizontalOptions="Fill">
+
+            <!-- Everything above results goes here, and will scroll away -->
+            <CollectionView.Header>
+                <VerticalStackLayout Spacing="12">
+
+                    <Entry Placeholder="Search (Title, Meal-ID, Category)"
+                           Text="{Binding SearchText}"
+                           ClearButtonVisibility="WhileEditing" />
+
+                    <!-- Filters header row -->
+                    <Button Text="Filters ⌄"
+                        Command="{Binding ToggleFiltersCommand}"
+                        BackgroundColor="{DynamicResource CardBackground}"
+                        TextColor="{DynamicResource PrimaryText}"
+                        BorderColor="{DynamicResource BorderColor}"
+                        BorderWidth="1"
+                        CornerRadius="18"
+                        Padding="12"
+                        HorizontalOptions="Fill" />
+
+                    <!-- Filters panel -->
+                    <Border StrokeThickness="1"
+                            Stroke="{DynamicResource BorderColor}"
+                            BackgroundColor="{DynamicResource CardBackground}"
+                            StrokeShape="RoundRectangle 18"
+                            Padding="12"
+                            IsVisible="{Binding AreFiltersOpen}">
+
+                        <VerticalStackLayout Spacing="10">
+                            <Label Text="Note: TheMealDB only allows one filter at a time. Advanced Search will use the first filled field in this order: Ingredient → Area → Category."
+                                   FontSize="12"
+                                   TextColor="{DynamicResource SecondaryText}" />
+
+                            <Entry Placeholder="Search Ingredient (separate by ',')"
+                                   Text="{Binding IngredientsText}"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Entry Placeholder="Search Area (e.g., Japanese)"
+                                   Text="{Binding AreaText}"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Entry Placeholder="Search Category (e.g., Beef)"
+                                   Text="{Binding CategoryText}"
+                                   ClearButtonVisibility="WhileEditing" />
+
+                            <Button Text="Advanced Search"
+                                    Command="{Binding AdvancedSearchCommand}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <!-- Search button and results count -->
+                    <Button Text="Search"
+                            Command="{Binding SearchCommand}" />
+
+                    <Label Text="{Binding ResultsCountLabel}"
+                           TextColor="{DynamicResource SecondaryText}"
+                           FontSize="13" />
+
+                </VerticalStackLayout>
+            </CollectionView.Header>
+
+            
+            <!-- Results -->
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:SearchResultItem">
+                    <controls:MealFeatureView
+                        Title="{Binding Title}"
+                        IngredientsPreview="{Binding IngredientsPreview}"
+                        MealImage="{Binding MealImage}"
+                        TapCommand="{Binding Source={x:Reference Root}, Path=BindingContext.OpenRecipeCommand}"
+                        TapCommandParameter="{Binding MealId}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+        <!-- Fixed bottom navigation bar -->
+        <controls:NavBarView Grid.Row="2" />
+
+    </Grid>
+</ContentPage>

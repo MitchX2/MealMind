@@ -4,6 +4,10 @@
              x:Class="MealMind.Views.Controls.InstructionListView"
              x:Name="Root">
 
+    <!-- Reusable instruction list control.
+     Displays numbered steps with optional tick checkboxes and a built-in empty state. -->
+
+
     <Border StrokeThickness="1"
             Stroke="{DynamicResource BorderColor}"
             BackgroundColor="{DynamicResource CardBackground}"
@@ -11,60 +15,55 @@
             Padding="12"
             Margin="0,4">
 
+        <!-- Card container styled using DynamicResource so theme changes apply automatically -->
         <Border.Shadow>
             <Shadow Offset="0,4" Radius="8" Opacity="0.18" />
         </Border.Shadow>
 
         <VerticalStackLayout Spacing="10">
 
-            <!-- Optional title -->
-            <Label Text="{Binding Title }"
-                   IsVisible="{Binding ShowTitle }"
-                   TextColor="{DynamicResource TextPrimary}"
+            <!-- Optional title provided by the parent page (Title + ShowTitle bindables) -->
+            <Label Text="{Binding Title , Source={x:Reference Root}}"
+                   IsVisible="{Binding ShowTitle , Source={x:Reference Root}}"
+                   TextColor="{DynamicResource PrimaryText}"
                    FontAttributes="Bold"
                    FontSize="16" />
 
-            <!-- Empty state -->
-            <Label Text="{Binding EmptyText }"
-                   IsVisible="{Binding IsEmpty }"
-                   TextColor="{DynamicResource TextSecondary}"
+            <!-- Empty state if null-->
+            <Label Text="{Binding EmptyText, Source={x:Reference Root} }"
+                   IsVisible="{Binding IsEmpty, Source={x:Reference Root} }"
+                   TextColor="{DynamicResource SecondaryText}"
                    FontSize="13" />
 
-            <!-- Steps list -->
-            <CollectionView ItemsSource="{Binding Items }"
-                            IsVisible="{Binding IsNotEmpty }"
-                            SelectionMode="None">
+            <!-- Steps list bound via x:Reference Root so the control is self-contained and reusable -->
+            <CollectionView ItemsSource="{Binding Items, Source={x:Reference Root}}"
+                IsVisible="{Binding IsNotEmpty, Source={x:Reference Root}}"
+                SelectionMode="None">
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid ColumnDefinitions="Auto,Auto,*"
-                              RowDefinitions="Auto"
-                              ColumnSpacing="10"
-                              Padding="6,6">
+                            ColumnSpacing="10"
+                            Padding="6,6">
 
-                            <!-- Checkbox (optional) -->
+                            <!-- Optional checkbox: visibility controlled by EffectiveShowCheckbox; state binds to InstructionStep.IsDone -->
                             <CheckBox Grid.Column="0"
-                                      IsVisible="{Binding ShowCheckbox }"
-                                      IsChecked="{Binding IsDone}" />
+                            IsVisible="{Binding EffectiveShowCheckbox, Source={x:Reference Root}}"
+                            IsChecked="{Binding IsDone, Mode=TwoWay}" />
 
-                            <!-- Step number -->
-                            <Label Grid.Column="1"
-                                   Text="{Binding Number}"
-                                   TextColor="{DynamicResource TextSecondary}"
-                                   FontAttributes="Bold"
-                                   VerticalTextAlignment="Start" />
+                        <Label Grid.Column="1"
+                            Text="{Binding Number}"
+                            TextColor="{DynamicResource SecondaryText}"
+                            FontAttributes="Bold" />
 
-                            <!-- Step text -->
-                            <Label Grid.Column="2"
-                                   Text="{Binding Text}"
-                                   TextColor="{DynamicResource TextPrimary}"
-                                   FontSize="14"
-                                   LineBreakMode="WordWrap" />
-
+                        <Label Grid.Column="2"
+                            Text="{Binding Text}"
+                            TextColor="{DynamicResource PrimaryText}"
+                            FontSize="14"
+                            LineBreakMode="WordWrap" />
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-
             </CollectionView>
 
         </VerticalStackLayout>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MealMind.ViewModels"
+             xmlns:models="clr-namespace:MealMind.Models"
+             xmlns:controls="clr-namespace:MealMind.Views.Controls"
+             x:Class="MealMind.Views.Pages.FavoritesPage"
+             x:DataType="vm:FavoritesPageViewModel"
+             Title="Favourites"
+             x:Name="PageRoot">
+
+    <!-- Page layout: Header (row 0), Content (row 1), Bottom NavBar (row 2) -->
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Header -->
+        <controls:TitleBannerView Grid.Row="0" />
+
+        <!-- Main content -->
+        <ScrollView Grid.Row="1">
+            <Grid Padding="16"
+                  RowDefinitions="Auto,*"
+                  RowSpacing="12"
+                  MaximumWidthRequest="700"
+                  HorizontalOptions="Fill">
+
+                <!-- Loading indicator -->
+                <ActivityIndicator Grid.Row="0"
+                                   IsRunning="{Binding IsBusy}"
+                                   IsVisible="{Binding IsBusy}" />
+
+                <!-- Favourites list -->
+                <CollectionView x:Name="FavList"
+                                Grid.Row="1"
+                                ItemsSource="{Binding Items}"
+                                SelectionMode="None">
+
+                    <!-- Empty view when there are no favourites -->
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="No favourites yet."
+                                   FontAttributes="Bold" />
+                            <Label Text="Tap the heart on a recipe to save it here."
+                                   TextColor="{DynamicResource SecondaryText}" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2" />
+                    </CollectionView.ItemsLayout>
+
+                    <!-- Favourites items bound to SearchResultItem model -->
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:SearchResultItem">
+                            <controls:MealFeatureView
+                                ShowBadge="False"
+                                EnableSwipe="False"
+                                ShowNavButtons="False"
+                                MealImage="{Binding MealImage}"
+                                Title="{Binding Title}"
+                                IngredientsPreview="{Binding IngredientsPreview}"
+                                TapCommand="{Binding Source={x:Reference PageRoot}, Path=BindingContext.OpenRecipeCommand}"
+                                TapCommandParameter="{Binding MealId}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+            </Grid>
+        </ScrollView>
+
+        <!-- Bottom NavBar -->
+        <controls:NavBarView Grid.Row="2" />
+
+    </Grid>
+</ContentPage>

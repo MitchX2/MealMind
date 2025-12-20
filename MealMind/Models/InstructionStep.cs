@@ -1,17 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MealMind.Models
 {
-    public class InstructionStep
+
+    // InstructionStep
+    // Represents a single instruction step in a recipe.
+    // Used for displaying numbered steps and optional checkbox progress while cooking.
+    public sealed class InstructionStep
     {
-        public int Number { get; init; }            
+        // Step number for displaying  step order
+        public int Number { get; init; }
         public string Text { get; init; } = "";
 
-        // IsDone added to track progress through recipe steps
-        public bool IsDone { get; set; }            
+        // Bound directly to the checkbox (page-session only)
+        public bool IsDone { get; set; }
     }
 }

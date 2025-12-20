@@ -11,7 +11,7 @@ public partial class MealFeatureView : ContentView
     {
         InitializeComponent();
 
-        BindingContext = this;
+        
 
         _swipeLeft = new SwipeGestureRecognizer { Direction = SwipeDirection.Left };
         _swipeRight = new SwipeGestureRecognizer { Direction = SwipeDirection.Right };
@@ -52,6 +52,10 @@ public partial class MealFeatureView : ContentView
         set => SetValue(TitleProperty, value);
     }
 
+
+
+
+
     public static readonly BindableProperty IngredientsPreviewProperty =
         BindableProperty.Create(nameof(IngredientsPreview), typeof(string), typeof(MealFeatureView), "");
 
@@ -61,14 +65,44 @@ public partial class MealFeatureView : ContentView
         set => SetValue(IngredientsPreviewProperty, value);
     }
 
+    //public static readonly BindableProperty MealImageProperty =
+    //    BindableProperty.Create(nameof(MealImage), typeof(ImageSource), typeof(MealFeatureView), default(ImageSource));
+
+    //public ImageSource? MealImage
+    //{
+    //    get => (ImageSource?)GetValue(MealImageProperty);
+    //    set => SetValue(MealImageProperty, value);
+    //}
+
     public static readonly BindableProperty MealImageProperty =
-        BindableProperty.Create(nameof(MealImage), typeof(ImageSource), typeof(MealFeatureView), default(ImageSource));
+    BindableProperty.Create(
+        nameof(MealImage),
+        typeof(ImageSource),
+        typeof(MealFeatureView),
+        default(ImageSource),
+        propertyChanged: (b, o, n) =>
+        {
+            var view = (MealFeatureView)b;
+            view.OnPropertyChanged(nameof(HasImage));
+            view.OnPropertyChanged(nameof(NoImage));
+        });
 
     public ImageSource? MealImage
     {
         get => (ImageSource?)GetValue(MealImageProperty);
         set => SetValue(MealImageProperty, value);
     }
+
+    // Handling image present or absent
+    public bool HasImage =>
+    MealImage switch
+    {
+        null => false,
+        UriImageSource u => u.Uri != null && !string.IsNullOrWhiteSpace(u.Uri.ToString()),
+        _ => true
+    };
+
+    public bool NoImage => !HasImage;
 
     // ===== Nav buttons =====
 
@@ -144,6 +178,17 @@ public partial class MealFeatureView : ContentView
         get => (ICommand?)GetValue(RightCommandProperty);
         set => SetValue(RightCommandProperty, value);
     }
+
+    public static readonly BindableProperty NavButtonOpacityProperty =
+    BindableProperty.Create(nameof(NavButtonOpacity), typeof(double), typeof(MealFeatureView), 0.01);
+
+    public double NavButtonOpacity
+    {
+        get => (double)GetValue(NavButtonOpacityProperty);
+        set => SetValue(NavButtonOpacityProperty, value);
+    }
+
+
 
     public static readonly BindableProperty TapCommandProperty =
         BindableProperty.Create(nameof(TapCommand), typeof(ICommand), typeof(MealFeatureView));

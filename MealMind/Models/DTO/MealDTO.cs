@@ -9,8 +9,11 @@ using MealMind.Models;
 
 namespace MealMind.Models.DTO
 {
-    // Data Transfer Object used to take in JSON responses from TheMealDB API
-    // Allows for easy deserialization of meal data and mapping to internal models
+
+    // MealDTO
+    // Data Transfer Object (DTO) that matches TheMealDB JSON structure exactly.
+    // Used only for deserialization (API-shaped data), then mapped into the internal Recipe model.
+    // TheMealDB uses numbered fields for ingredients/measures, so helper methods below make that easier to work with.
     public class MealDTO
     {
         // Taking in every field as the TheMealDB API provides it

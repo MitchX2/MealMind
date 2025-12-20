@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:MealMind.ViewModels"
+             xmlns:controls="clr-namespace:MealMind.Views.Controls"
+             x:Class="MealMind.Views.Pages.ShoppingListPage"
+             x:DataType="vm:ShoppingListPageViewModel"
+             Title="Shopping List">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+        <!-- Page layout: Header (row 0), Content (row 1), Bottom NavBar (row 2) -->
+
+        <controls:TitleBannerView Grid.Row="0" />
+
+        <!-- Main content -->
+        <Grid Grid.Row="1"
+              Padding="16"
+              RowDefinitions="Auto,*"
+              RowSpacing="12">
+
+            <!-- Simple page-level actions -->
+            <HorizontalStackLayout Grid.Row="0" Spacing="10">
+                <Button Text="Clear checked"
+                        Clicked="ClearChecked_Clicked" />
+                <Button Text="Clear all"
+                        Clicked="ClearAll_Clicked" />
+            </HorizontalStackLayout>
+
+            <!-- Main content area with padding. Uses a max width for readability on desktop/tablet. -->
+            <CollectionView Grid.Row="1"
+                            MaximumWidthRequest="500"
+                            HorizontalOptions="Fill"
+                            ItemsSource="{Binding Items}"
+                            SelectionMode="None">
+
+                <!-- Empty view when there are no items -->
+                <CollectionView.EmptyView>
+                    <Label Text="Your shopping list is empty."
+                           TextColor="{DynamicResource SecondaryText}" />
+                </CollectionView.EmptyView>
+
+
+                <!-- Shopping list items bound to Items O-C<ShoppingListItemRow> -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ShoppingListItemRow">
+                        <Border StrokeThickness="1"
+                                Stroke="{DynamicResource BorderColor}"
+                                BackgroundColor="{DynamicResource CardBackground}"
+                                StrokeShape="RoundRectangle 18"
+                                Padding="12"
+                                Margin="0,4">
+
+                            <Grid ColumnDefinitions="Auto,*,Auto"
+                                  RowDefinitions="Auto,Auto"
+                                  ColumnSpacing="12">
+
+                                <CheckBox Grid.RowSpan="2"
+                                          IsChecked="{Binding IsChecked}"
+                                          CheckedChanged="ItemCheckedChanged" />
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding Name}"
+                                       FontAttributes="Bold"
+                                       LineBreakMode="TailTruncation" />
+
+                                <Button Grid.Column="2"
+                                        Text="Delete"
+                                        Clicked="Delete_Clicked" />
+
+                                <Label Grid.Row="1"
+                                       Grid.Column="1"
+                                       Text="{Binding QuantityText}"
+                                       FontSize="12"
+                                       TextColor="{DynamicResource SecondaryText}"
+                                       LineBreakMode="TailTruncation" />
+
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </Grid>
+
+        <!-- Bottom navigation bar -->
+        <controls:NavBarView Grid.Row="2" />
+
+    </Grid>
+</ContentPage>

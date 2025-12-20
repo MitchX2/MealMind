@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MealMind.Views.Controls.TitleBannerView"
              HeightRequest="60"
-             BackgroundColor="#D9C6E5">
+             BackgroundColor="{DynamicResource Accent}">
     
     
     <Grid   x:Name="TitleGrid"
@@ -15,7 +15,7 @@
         <ImageButton 
             Grid.Column="0"
             x:Name="TitleBannerIcon"
-            Source="appicon.png"
+            Source="mealmind_logo.png"
             BackgroundColor="Grey"
             Clicked="TitleBannerClicked" />
 

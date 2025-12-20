@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MealMind.Views.Controls.SearchAccordionView"
+             x:Name="Root">
+
+    <!-- Reusable collapsible search control like a python accordion.
+     All state and commands provided by the parent ViewModel. -->
+
+    <VerticalStackLayout Spacing="10" HorizontalOptions="Fill">
+
+        <!-- Toggle button controls expanded/collapsed state via IsExpanded -->
+        <!-- Uses x:Reference Root so this control stays ViewModel-agnostic -->
+        <Button Text="Search ⌄"
+                
+                Command="{Binding ToggleExpandedCommand, Source={x:Reference Root}}"
+                BackgroundColor="{DynamicResource CardBackground}"
+                TextColor="{DynamicResource PrimaryText}"
+                BorderColor="{DynamicResource BorderColor}"
+                BorderWidth="1"
+                CornerRadius="18"
+                Padding="12"
+                HorizontalOptions="Fill" />
+
+        <!-- Collapsible content panel shown only when IsExpanded is true -->
+        <Border StrokeThickness="1"
+                Stroke="{DynamicResource BorderColor}"
+                BackgroundColor="{DynamicResource CardBackground}"
+                StrokeShape="RoundRectangle 18"
+                Padding="12"
+                IsVisible="{Binding IsExpanded, Source={x:Reference Root}}"
+                HorizontalOptions="Fill">
+
+            <VerticalStackLayout Spacing="10">
+
+                <!-- Search fields are two-way bound to the hosting ViewModel -->
+                <Entry Placeholder="Title, Meal-ID or Category"
+                       Text="{Binding SearchText, Source={x:Reference Root}, Mode=TwoWay}"
+                       ClearButtonVisibility="WhileEditing" />
+
+                <Entry Placeholder="Ingredients (separate by ',')"
+                       Text="{Binding IngredientsText, Source={x:Reference Root}, Mode=TwoWay}"
+                       ClearButtonVisibility="WhileEditing" />
+
+                <!-- Search actions sent to the parent ViewModel -->
+                <Grid ColumnDefinitions="*,*"
+                      ColumnSpacing="10">
+                    <Button Grid.Column="0"
+                            Text="Search"
+                            Command="{Binding SearchCommand, Source={x:Reference Root}}" />
+
+                    <!-- Advanced search behaviour is set by the ViewModel -->
+                    <Button Grid.Column="1"
+                            Text="Advanced Search"
+                            Command="{Binding AdvancedSearchCommand, Source={x:Reference Root}}" />
+                </Grid>
+
+            </VerticalStackLayout>
+        </Border>
+
+    </VerticalStackLayout>
+</ContentView>

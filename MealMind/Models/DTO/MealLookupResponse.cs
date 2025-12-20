@@ -9,11 +9,11 @@ using MealMind.Models;
 
 namespace MealMind.Models.DTO
 {
-    // The API Lookup can reture 1 or many meals in a response
-    // this wrapper wil allow us to take in the response and handle both cases
+    // Wrapper for TheMealDB lookup/random API response.
+    // The API always returns a "meals" array, even when only one meal is requested.
     public class MealLookupResponse
     {
         [JsonPropertyName("meals")]
-        public List<MealDTO>? Meals { get; set; }
+        public List<MealLookupDto>? Meals { get; set; }
     }
 }
