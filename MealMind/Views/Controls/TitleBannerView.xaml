@@ -15,7 +15,7 @@
         <ImageButton 
             Grid.Column="0"
             x:Name="TitleBannerIcon"
-            Source="mealmind_logo.png"
+            Source="mealmind_logo2.png"
             BackgroundColor="Grey"
             Clicked="TitleBannerClicked" />
 

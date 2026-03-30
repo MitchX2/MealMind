@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="MealMind.Views.Controls.TimerView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Border
+        Padding="12"
+        StrokeShape="RoundRectangle 24"
+        BackgroundColor="{DynamicResource Accent}"
+        Stroke="{DynamicResource BorderColor}">
+
+        <VerticalStackLayout Spacing="12">
+
+            <!-- Top controls -->
+            <Grid ColumnDefinitions="Auto,Auto,*,140" ColumnSpacing="12">
+
+                    <ImageButton
+                        x:Name="PlayPauseButton"
+                        Grid.Column="0"
+                        WidthRequest="56"
+                        HeightRequest="56"
+                        BackgroundColor="Transparent"
+                        Aspect="AspectFit"
+                        Padding="4"
+                        Clicked="OnPlayPauseClicked"
+                        Source="play_icon.png" />
+
+                    <ImageButton
+                        x:Name="AddTimerButton"
+                        Grid.Column="1"
+                        WidthRequest="56"
+                        HeightRequest="56"
+                        BackgroundColor="Transparent"
+                        Aspect="AspectFit"
+                        Padding="4"
+                        Clicked="OnAddTimerClicked"
+                        Source="plus_icon.png" />
+
+                    <Label
+                        Grid.Column="2"
+                        VerticalOptions="Center"
+                        HorizontalOptions="End"
+                        Text="Current Timer"
+                        FontSize="20"
+                        FontAttributes="Bold" />
+
+                    <Border
+                        Grid.Column="3"
+                        Padding="12"
+                        BackgroundColor="{AppThemeBinding Light=#AEE8F5, Dark=#235A69}"
+                        Stroke="{AppThemeBinding Light=#5DB7CC, Dark=#4CB3C7}"
+                        StrokeShape="RoundRectangle 8">
+
+                    <Label
+                        x:Name="CurrentTimerLabel"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        FontSize="28"
+                        FontAttributes="Bold"
+                        Text="00:00" />
+                </Border>
+            </Grid>
+
+            <!-- Timer queue -->
+            <CollectionView
+                x:Name="TimerCollectionView"
+                SelectionMode="None">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Margin="0,4"
+                            Padding="10"
+                            StrokeShape="RoundRectangle 16"
+                            BackgroundColor="{AppThemeBinding Light=#F5F5F5, Dark=#2E2E2E}"
+                            Stroke="{AppThemeBinding Light=#B5B5B5, Dark=#555555}">
+
+                            <Grid ColumnDefinitions="70,60,60,60,*,70" ColumnSpacing="8">
+
+                                <Label
+                                    Grid.Column="0"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    Text="{Binding Id}" />
+
+                                <ImageButton
+                                    Grid.Column="1"
+                                    WidthRequest="44"
+                                    HeightRequest="44"
+                                    BackgroundColor="Transparent"
+                                    Aspect="AspectFit"
+                                    Padding="4"
+                                    Clicked="OnDeleteTimerClicked"
+                                    CommandParameter="{Binding Id}"
+                                    Source="delete_icon.png" />
+
+                                <ImageButton
+                                    Grid.Column="2"
+                                    WidthRequest="44"
+                                    HeightRequest="44"
+                                    BackgroundColor="Transparent"
+                                    Aspect="AspectFit"
+                                    Padding="4"
+                                    Clicked="OnDecreaseTimerClicked"
+                                    CommandParameter="{Binding Id}"
+                                    Source="minus_icon.png" />
+    
+                                <ImageButton
+                                    Grid.Column="3"
+                                    WidthRequest="44"
+                                    HeightRequest="44"
+                                    BackgroundColor="Transparent"
+                                    Aspect="AspectFit"
+                                    Padding="4"
+                                    Clicked="OnIncreaseTimerClicked"
+                                    CommandParameter="{Binding Id}"
+                                    Source="plus_icon.png" />
+
+                                <Label
+                                    Grid.Column="4"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="Center"
+                                    FontSize="24"
+                                    FontAttributes="Bold"
+                                    Text="{Binding TimeText}" />
+
+                                
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </Border>
+</ContentView>

@@ -15,7 +15,9 @@
         <ScrollView Grid.Row="1"
                     MaximumWidthRequest="500"
                     HorizontalOptions="Fill">
-            <VerticalStackLayout Spacing="16" Padding="16">
+            
+            <!-- Extra Padding added to the Scroll view stack to prevent timer blocking the bottom section-->
+            <VerticalStackLayout Spacing="16" Padding="16,16,16,140">
 
                 <!-- Recipe summary card: image title, primary actions (favourite / meal plan / shopping list) -->
                 <Border BackgroundColor="{DynamicResource CardBackground}"
@@ -107,6 +109,19 @@
 
             </VerticalStackLayout>
         </ScrollView>
+
+        <!-- Timer controls added to the RecipePage
+                Removed from scroll view so it remains visible 
+                while looking at instructions, checkboxes etc...-->
+        <controls:TimerView 
+            
+            Grid.Row="1"
+            VerticalOptions="End"
+            HorizontalOptions="Center"
+            MaximumWidthRequest="500"
+            Margin="12" />
+        
+
 
         <!-- Bottom navigation bar -->
         <controls:NavBarView Grid.Row="2" />

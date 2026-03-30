@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net9.0-android;net9.0-ios;net9.0-maccatalyst</TargetFrameworks>
@@ -61,14 +61,12 @@
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="Resources\AppIcon\mealmind_logo.png" />
-	  <None Remove="Resources\Splash\mealmind_logo.png" />
-	</ItemGroup>
+	
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
+		<PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -96,6 +94,9 @@
 	  <MauiXaml Update="Views\Controls\SearchAccordionView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Controls\TimerView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Controls\TitleBannerView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -120,6 +121,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="docs\Video_Demo\" />
 	  <Folder Include="Resources\Images\AppIcons\" />
 	  <Folder Include="Resources\Images\Navigation\" />
 	  <Folder Include="Resources\Images\MealCard\" />
@@ -132,12 +134,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\AppIcon\mealmind_logo.png" />
+	  <MauiIcon Include="Resources\AppIcon\mealmind_logo.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiSplashScreen Include="Resources\Splash\mealmind_logo.png" />
 	</ItemGroup>
+
+	
 
 	<ItemGroup>
 	  <Compile Update="Views\Controls\NavBarView.xaml.cs">

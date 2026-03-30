@@ -14,7 +14,7 @@
           ColumnSpacing="10"
           ColumnDefinitions="*,*,*,*,*"
           HorizontalOptions="Center"
-          BackgroundColor="{DynamicResource CardBackground}">
+          BackgroundColor="{DynamicResource Accent}">
 
         <!-- Navigation buttons use a shared style for consistent sizing and touch targets -->
         <!-- Style centralises icon size, padding, and visual behaviour -->
